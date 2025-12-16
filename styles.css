@@ -113,11 +113,13 @@ button{
 }
 
 .taskItem{
+    width:100%;
     display: flex;
     background-color: var(--secondaryBackground);
     padding: 10px;
     border-radius: 10px;
     justify-content: space-between;
+    align-items: center;
 
 }
 .task{
@@ -135,10 +137,11 @@ button{
     width: 24px;
     height: 24px;
     margin: 0 10px;
+    cursor:pointer;
 
 }
-.taskItem{
-    width: 24px;
-    height: 24px;
 
+.completed p{
+    text-decoration: line-through;
+    color: var(--teal);
 }

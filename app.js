@@ -1,4 +1,19 @@
+document.addEventListener("DOMContentLoaded", ()=> {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks'))
+    if (storedTasks){
+        storedTasks.forEach((task)=> tasks.push(task));
+        updateTasksList();
+        updateStats();
+    }
+});
+
+
 let tasks = [];
+
+const saveTasks = ()=>{
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+
+};
 
 const addTask =()=>{
    const taskInput = document.getElementById("taskInput"); 
@@ -6,12 +21,52 @@ const addTask =()=>{
 
    if(text){
     tasks.push({text:text, completed:false});
+    taskInput.value = "";
+    updateTasksList();
+    updateStats();
+    saveTasks();
    }
-   updateTasksList();
+   
 };
 
+const toggleTaskComplete = (index) =>{
+    tasks[index].completed = !tasks[index].completed;
+    console.log({tasks});
+    updateTasksList();
+    updateStats();
+    saveTasks();
+};
+
+const deleteTask = (index)=>{
+    tasks.splice(index, 1);
+    updateTasksList();
+    updateStats();
+    saveTasks();
+};
+
+const editTask = (index) =>{
+    const taskInput = document.getElementById('taskInput');
+    taskInput.value = tasks[index].text;
+
+    tasks.splice(index, 1);
+    updateTasksList();
+    updateStats();
+    saveTasks();
+};
+
+const updateStats = ()=>{
+    const completedTasks = tasks.filter(task => task.completed).length
+    const totalTasks = tasks.length;
+    const progress = (completedTasks/totalTasks)*100;
+    const progressBar = document.getElementById('progress');
+    console.log(progress);
+    progressBar.style.windows = `${progress}%`;
+
+    document.getElementById('numbers').innerText = `${completedTasks} / ${totalTasks}`
+
+};
 const updateTasksList = ()=> {
-    const taskList = document.getElementById('task-List')
+    const taskList = document.getElementById('task-list')
     taskList.innerHTML = "";
 
     tasks.forEach((task, index) => {
@@ -38,4 +93,4 @@ document.getElementById('newTask').addEventListener('click', function(e){
     e.preventDefault()
 
     addTask();
-})
+});
